@@ -1,0 +1,33 @@
+.filters {
+  border: 1px solid black;
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .filter:not(:last-child) {
+    margin-right: 12px;
+  }
+}
+
+.chart-wrapper {
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+
+  &_active {
+    opacity: 1;
+  }
+}
+
+.no-results {
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+  height: 0;
+
+  &_active {
+    opacity: 1;
+    height: 20px;
+  }
+}

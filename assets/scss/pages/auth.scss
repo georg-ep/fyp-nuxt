@@ -1,0 +1,36 @@
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.input-wrapper {
+  width: 400px;
+}
+
+.tf-image-wrapper {
+  background: white;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  border-radius: 0 2px 2px 0;
+
+  .tf-image {
+    width: 20px;
+    padding-right: 6px;
+  }
+}
+
+.gender_error {
+  color: red;
+  font-size: 12px;
+  height: 0;
+  transition: 0.2s ease-in-out;
+  overflow: hidden;
+
+  &_visible {
+    height: 15px;
+    margin-top: 4px;
+  }
+}

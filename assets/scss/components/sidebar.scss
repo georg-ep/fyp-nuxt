@@ -1,0 +1,31 @@
+.sidebar {
+  background: black;
+  width: 300px;
+  position: relative;
+  min-height: 100vh;
+  z-index: 100;
+  
+  .link {
+    color: white;
+    padding: 20px 30px;
+    transition: 0.2s ease-in-out;
+    font-size: 26px;
+    color: rgba($color: white, $alpha: 0.7);
+
+    &_selected {
+      background: rgba($color: white, $alpha: 0.8);
+      color: black;
+      border-right: 1px solid black;
+
+      &:hover {
+        color: black !important;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      // background: rgba($color: white, $alpha: 0.2);
+      color: white;
+    }
+  }
+}

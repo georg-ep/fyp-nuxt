@@ -1,0 +1,22 @@
+:root {
+  // --primary: pink;
+  --primary: #0074D9;
+  --success: #008000;
+  --error: red;
+  --secondary: #a3a3a3;
+  
+  --blue: rgb(82, 82, 255);
+
+  // Textfield variables
+  --tf-error: rgb(221, 27, 27);
+
+  --box-shadow-dark: black;
+  --box-shadow-light: rgb(238, 238, 238);
+
+  --text-dark-grey: rgb(120, 120, 120);
+  --text-light-grey: rgb(169, 169, 169);
+
+
+  --svg-orange: invert(75%) sepia(72%) saturate(3444%) hue-rotate(314deg) brightness(101%) contrast(108%);
+  --svg-white: invert(100%) sepia(5%) saturate(4843%) hue-rotate(196deg) brightness(135%) contrast(104%);
+}

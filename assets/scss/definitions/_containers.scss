@@ -1,0 +1,13 @@
+.section {
+  padding: 40px;
+  flex: 1;
+  flex-wrap: wrap;
+  background: white;
+  box-shadow: 0 0 2px 0.01px black;
+  border-radius: 2px;
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+}

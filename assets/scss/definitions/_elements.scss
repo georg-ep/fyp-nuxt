@@ -1,0 +1,20 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Space Grotesk";
+  color: black;
+  overflow-x: hidden !important;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+input, textarea {
+  font-family: "Space Grotesk";
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+}
