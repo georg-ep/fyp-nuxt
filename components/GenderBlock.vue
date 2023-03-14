@@ -1,42 +1,34 @@
 <template>
   <div>
-    <div class="tf-label mb-12 no-border">Gender</div>
+    <div class="tf-label tf-label_no-format mb-12">Gender</div>
     <div class="mb-12">
       <div class="flex space-between">
         <Button
           :width="'32%'"
-          :background="gender === 'male' ? 'black' : 'transparent'"
-          :text-colour="gender === 'male' ? 'white' : 'black'"
-          :border="gender === 'male' ? 'none' : '1px solid black'"
+          :background="gender === 'male' ? 'var(--primary)' : 'transparent'"
+          :text-colour="'white'"
           :font-size="'15px'"
           :height="'45px'"
-          :border-radius="'2px'"
           @click="gender = 'male'"
-          ><template slot="content"><div>Male</div> </template></Button
+          >Male</Button
         >
         <Button
           :width="'32%'"
           :height="'45px'"
-          :background="gender === 'female' ? 'black' : 'transparent'"
-          :text-colour="gender === 'female' ? 'white' : 'black'"
-          :border="gender === 'female' ? 'none' : '1px solid black'"
+          :background="gender === 'female' ? 'var(--primary)' : 'transparent'"
+          :text-colour="'white'"
           @click="gender = 'female'"
           :font-size="'15px'"
-          :border-radius="'2px'"
-          ><template slot="content"><div>Female</div> </template></Button
+          >Female</Button
         >
         <Button
           :width="'32%'"
           :height="'45px'"
-          :background="gender === 'other' ? 'black' : 'transparent'"
-          :text-colour="gender === 'other' ? 'white' : 'black'"
-          :border="gender === 'other' ? 'none' : '1px solid black'"
+          :background="gender === 'other' ? 'var(--primary)' : 'transparent'"
+          :text-colour="'white'"
           @click="gender = 'other'"
           :font-size="'15px'"
-          :border-radius="'2px'"
-          ><template slot="content"
-            ><div>Prefer not to say</div>
-          </template></Button
+          >Prefer Not to Say</Button
         >
       </div>
     </div>
@@ -63,7 +55,7 @@ export default {
   watch: {
     gender(val) {
       this.$emit("update:model", val);
-    }
+    },
   },
 };
 </script>

@@ -2,59 +2,30 @@
   <div class="settings">
     <div class="section mb-24">
       <div class="title">Settings</div>
-      <Input
-        :model.sync="username"
-        :background="'white'"
-        :border="'1px solid black'"
-        :text-colour="'black'"
-        class="mb-12"
-      >
+      <Input :model.sync="username" class="mb-12">
         <template slot="label"><div class="tf-label">Username</div></template>
       </Input>
-      <Input
-        :model.sync="dob"
-        :background="'white'"
-        :type="'date'"
-        :border="'1px solid black'"
-        :text-colour="'black'"
-        class="mb-12"
-      >
+      <Input :model.sync="dob" :type="'date'" class="mb-12">
         <template slot="label"
           ><div class="tf-label">Date of Birth</div></template
         >
       </Input>
       <GenderBlock :model.sync="gender" class="mb-24" />
-      <Button @click="updateSettings"
-        ><template slot="content">Update Settings</template></Button
-      >
+      <Button @click="updateSettings">Update Settings</Button>
     </div>
     <div class="section">
       <div class="title">Change Password</div>
-      <Input
-        :model.sync="oldPassword"
-        :background="'white'"
-        :border="'1px solid black'"
-        :text-colour="'black'"
-        class="mb-12"
-      >
+      <Input :model.sync="oldPassword" class="mb-12">
         <template slot="label"
           ><div class="tf-label">Old Password</div></template
         >
       </Input>
-      <Input
-        :model.sync="newPassword"
-        :background="'white'"
-        :border="'1px solid black'"
-        :text-colour="'black'"
-        class="mb-24"
-      >
+      <Input :model.sync="newPassword" class="mb-24">
         <template slot="label"
           ><div class="tf-label">New Password</div></template
         >
       </Input>
-      <Button @click="changePassword"
-        ><template slot="content">Change Password</template></Button
-      >
+      <Button @click="changePassword">Change Pasword</Button>
     </div>
   </div>
 </template>
@@ -85,9 +56,7 @@ export default {
           gender: this.gender,
         };
         await this.$store.dispatch("user/updateSettings", payload);
-      } catch (e) {
-
-      }
+      } catch (e) {}
     },
     async changePassword() {
       try {

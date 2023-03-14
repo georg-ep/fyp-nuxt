@@ -1,19 +1,15 @@
 <template>
   <div>
-    <div class="filters">
-      <Button @click="updateDate('previous')"
-        ><template slot="content"><</template>
-      </Button>
+    <!-- <div class="filters">
+      <Button @click="updateDate('previous')">< </Button>
       <div class="flex col align-center">
         <div>{{ formattedDate }}</div>
         <div class="no-results" :class="{ 'no-results_active': !moods.length }">
           No results were found
         </div>
       </div>
-      <Button @click="updateDate('next')"
-        ><template slot="content">></template>
-      </Button>
-      <!-- <Input
+      <Button @click="updateDate('next')">> </Button>
+      <Input
         v-for="(filter, index) in filters"
         :key="`filter_${index}`"
         class="filter"
@@ -25,15 +21,15 @@
         ><template slot="label"
           ><div class="tf-label">{{ filter.name }}</div></template
         ></Input
-      > -->
-    </div>
+      >
+    </div> -->
     <LineChart :chart-data="chartData" :chart-options="chartOptions" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
+  name: "InsightsPage",
   data() {
     return {
       date: new Date(),
@@ -89,39 +85,68 @@ export default {
     },
   },
   async asyncData({ store }) {
-    const moods = (await store.dispatch("logs/listMood")).results;
-    return { moods };
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const time = "T00:00:00Z";
+    const lte = `${year}-${month}-${day + 1}`;
+    const gte = `${year}-${month}-${day}`;
+    const cycles = (await store.dispatch("breathing/listCycles")).results;
+    // const moods = (
+    //   await store.dispatch("logs/listMood", {
+    //     datetime__lte: lte + time,
+    //     datetime__gte: gte + time,
+    //   })
+    // ).results;
+    // const activities = (await store.dispatch("activities/list")).results;
+    return { cycles };
   },
   computed: {
     chartOptions() {
       return {
         responsive: true,
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
         scales: {
-          x: {
-            title: {
-              display: true,
-              text: "Time",
-            },
-          },
           y: {
-            min: 0,
-            max: 10,
-            title: {
-              display: true,
-              text: "Mood Level",
+            type: "linear",
+            display: true,
+            position: "left",
+            min: 1,
+            max: 11,
+          },
+          y1: {
+            type: "linear",
+            display: true,
+            position: "right",
+
+            grid: {
+              drawOnChartArea: false,
             },
           },
         },
       };
     },
     chartData() {
+      // const items = this.activities.concat(this.moods);
       return {
-        labels: Array.from(this.moods, (el) => el.log_time),
+        labels: Array.from(items, (el) =>
+          el.log_time ? el.log_time : el.start_time
+        ),
         datasets: [
           {
             label: "Moods",
+            yAxisID: "y",
             backgroundColor: "#f87979",
             data: Array.from(this.moods, (el) => el.level),
+          },
+          {
+            label: "Activities",
+            yAxisID: "y1",
+            data: Array.from(this.activities, (el) => el.start_time),
           },
         ],
       };

@@ -4,5 +4,8 @@ export const actions = {
   },
   async create(context, payload) {
     return await this.$axios.$post("/logs/activity/create/", payload);
-  }
+  },
+  async list(context, payload) {
+    return await this.$axios.$get(`/logs/activity/list/`);
+  },
 };

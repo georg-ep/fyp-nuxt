@@ -1,32 +1,21 @@
 <template>
   <div class="nav" :style="{ position }">
     <div>
-      <div class="logo">LOGO</div>
-      <div>{{ date }}</div>
+      <div>{{ date }} TODO ADD CURRENT TIME</div>
     </div>
     <div class="flex flex-end align-center w-100">
       <Button
-        :border="'1px solid white'"
-        :background="'black'"
-        :text-colour="'white'"
         v-if="!user"
         class="mr-8"
         :height="'30px'"
         @click="$router.push('/auth/login/')"
-        ><template slot="content">Login</template></Button
+        >Login</Button
       >
-      <div v-if="user" class="media-time">
+      <!-- <div v-if="user" class="media-time">
         <div class="label">Daily media time</div>
         <div>{{ mediaTime }}</div>
-      </div>
-      <Button
-        :border="'1px solid white'"
-        :background="'black'"
-        :text-colour="'white'"
-        :height="'30px'"
-        @click="buttonClick"
-        ><template slot="content">{{ buttonText }}</template></Button
-      >
+      </div> -->
+      <Button :height="'30px'" @click="buttonClick">{{ buttonText }}</Button>
     </div>
   </div>
 </template>
@@ -43,7 +32,7 @@ export default {
   data() {
     return {
       user: this.$auth.loggedIn,
-      date: null,
+      date: new Date().toLocaleDateString(),
     };
   },
   mounted() {

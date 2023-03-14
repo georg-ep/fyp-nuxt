@@ -5,7 +5,7 @@
       v-for="(link, index) in links"
       :key="`sidebar-link_${index}`"
       @click="$router.push(link.route)"
-      :class="{link_selected: selected(link)}"
+      :class="{ link_selected: selected(link) }"
     >
       {{ link.name }}
     </div>
@@ -19,17 +19,20 @@ export default {
     return {
       links: [
         { name: "Dashboard", route: "/dashboard/" },
-        { name: "Mood Logs", route: "/moods/" },
-        { name: "Activity Logs", route: "/activities/" },
-        { name: "Graph", route: "/graph/" },
-        { name: "Calendar", route: "" },
+        { name: "Breathwork", route: "/breathwork/" },
+        // { name: "Mood Logs", route: "/moods/" },
+        // { name: "Activities", route: "/activities/" },
+        // { name: "Tools", route: "" },
+        // { name: "Insights", route: "/insights/" },
+        { name: "Insights", route: "/insights/" },
+        { name: "History", route: "/history/" },
         { name: "Settings", route: "/settings/" },
       ],
     };
   },
   computed: {
     selected() {
-      return (link) => link.route === this.$route.path;
+      return (link) => this.$route.path.includes(link.route);
     },
   },
 };

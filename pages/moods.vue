@@ -3,24 +3,18 @@
     <div class="section">
       <div class="title">Create a Mood Log</div>
       <div class="flex space-between gap-10 align-center">
-        <Slider :model.sync="moodLevel" class="mb-12 flex_1">
-          <template slot="label"
-            ><div class="tf-label no-border">Mood level</div></template
-          >
-        </Slider>
-        <Input
-          :model.sync="moodLevel"
-          :border="'1px solid black'"
-          :text-colour="'black'"
-          class="mb-12"
-          ><template slot="label"
-            ><div class="tf-label">Mood Level</div></template
-          ></Input
+        <div class="flex_1">
+          <div class="tf-label tf-label_no-format mb-12">
+            Mood level ({{ moodLevel }})
+          </div>
+          <Slider :model.sync="moodLevel" class="mb-12 flex_1" />
+        </div>
+        <Button v-if="!showDate" @click="showDate = true"
+          >Add Date & Time</Button
         >
         <Input
+          v-if="showDate"
           :model.sync="datetime"
-          :border="'1px solid black'"
-          :text-colour="'black'"
           :type="'datetime-local'"
           class="mb-12 flex_1"
           ><template slot="label"
@@ -32,19 +26,14 @@
       </div>
       <Input
         :model.sync="notes"
-        :border="'1px solid black'"
-        :text-colour="'black'"
-        :type="'textarea'"
-        :rows="3"
+        :textarea="true"
         :height="'100px'"
         class="mb-12"
         ><template slot="label"
           ><div class="tf-label">Notes</div></template
         ></Input
       >
-      <Button @click="submit"
-        ><template slot="content">Submit</template></Button
-      >
+      <Button @click="submit">Submit</Button>
     </div>
   </div>
 </template>
@@ -59,6 +48,7 @@ export default {
       moodLevel: "5",
       notes: "",
       datetime: null,
+      showDate: false,
     };
   },
   methods: {

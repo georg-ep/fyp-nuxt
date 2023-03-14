@@ -1,5 +1,5 @@
 <template>
-  <div class="items" :class="{items_visible: enabled}">
+  <div class="items" :class="{ items_visible: enabled && hasItems }">
     <div
       @click="$emit('item-click', item)"
       v-for="(item, index) in items"
@@ -23,9 +23,13 @@ export default {
   props: {
     model: {
       type: String,
-      required: true,
+      default: "",
     },
     enabled: {
+      type: Boolean,
+      default: false,
+    },
+    showDropdown: {
       type: Boolean,
       default: false,
     },
@@ -35,14 +39,22 @@ export default {
     },
   },
   computed: {
+    hasItems() {
+      return (
+        this.items.find((item) =>
+          item.name.toLowerCase().includes(this.model.toLowerCase())
+        ) || this.showDropdown
+      );
+    },
     imgSrc() {
-      // assets/icons/socials/facebook.svg
-      return (item) => item.path ? require(`~/assets/icons/${item.path}`) : null;
+      return (item) =>
+        item.path ? require(`~/assets/icons/${item.path}`) : null;
     },
     showItem() {
       return (item) =>
-        this.enabled &&
-        item?.name.toLowerCase().includes(this.model.toLowerCase());
+        (this.enabled &&
+          item?.name.toLowerCase().includes(this.model.toLowerCase())) ||
+        this.showDropdown;
     },
   },
 };

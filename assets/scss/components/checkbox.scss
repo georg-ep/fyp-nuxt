@@ -1,0 +1,29 @@
+.checkbox {
+  height: 16px;
+  width: 16px;
+  border: 1px solid black;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+  
+  &_checked {
+    background: orange;
+  }
+
+  .icon {
+    height: 16px;
+    width: 16px;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+
+    &_visible {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

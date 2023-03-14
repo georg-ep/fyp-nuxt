@@ -2,10 +2,11 @@
   <div
     @click="handleClick"
     :style="styles"
+    :id="_uid"
     class="button-wrapper pointer"
     :class="{ disabled }"
   >
-    <slot name="content" />
+    <slot />
   </div>
 </template>
 
@@ -15,7 +16,7 @@ export default {
   props: {
     border: {
       type: String,
-      default: "none",
+      default: "1px solid var(--primary)",
     },
     disabled: {
       type: Boolean,
@@ -23,7 +24,7 @@ export default {
     },
     background: {
       type: String,
-      default: "black",
+      default: "transparent",
     },
     fontSize: {
       type: String,
@@ -31,11 +32,11 @@ export default {
     },
     borderRadius: {
       type: String,
-      default: "0",
+      default: "2px",
     },
     textColour: {
       type: String,
-      default: "white",
+      default: "var(--primary-text)",
     },
     width: {
       type: String,
@@ -50,6 +51,18 @@ export default {
     handleClick() {
       if (!this.disabled) this.$emit("click");
     },
+  },
+  mounted() {
+    const button = document.getElementById(this._uid);
+    button.addEventListener("mouseenter", () =>
+      this.border
+        ? (button.style.background = this.border.split(" ")[2])
+        : (button.style.background = "var(--primary)")
+    );
+    button.addEventListener(
+      "mouseleave",
+      () => (button.style.background = this.background)
+    );
   },
   computed: {
     styles() {

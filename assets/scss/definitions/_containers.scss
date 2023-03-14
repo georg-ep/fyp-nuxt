@@ -1,13 +1,32 @@
 .section {
-  padding: 40px;
+  padding: 20px;
   flex: 1;
   flex-wrap: wrap;
-  background: white;
-  box-shadow: 0 0 2px 0.01px black;
+  box-shadow: 0 0 2px 0.1px var(--primary);
   border-radius: 2px;
+}
 
+.title {
+  font-size: 24px;
+  margin-bottom: 12px;
+
+  &_activity {
+    margin-bottom: 36px;
+  }
+}
+
+.tile {
+  padding: 20px;
+  border: 1px solid var(--border-primary);
+  margin-bottom: 12px;
+  
   .title {
-    font-size: 24px;
-    margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary);
+  }
+  
+  .desc {
+    color: var(--text-secondary);
   }
 }

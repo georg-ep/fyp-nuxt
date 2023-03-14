@@ -1,30 +1,22 @@
 <template>
-  <div>
+  <div class="section">
     <div class="title">Login</div>
     <Input
-      :text-colour="'black'"
       :placeholder="'Username'"
       :model.sync="username"
       :error="$v.username"
       class="mb-12"
     />
     <Input
-      :text-colour="'black'"
       :placeholder="'Password'"
       :model.sync="password"
       :error="$v.password"
       class="mb-12"
     />
-    <Button
-      :background="loading ? 'white' : 'black'"
-      :border-radius="'4px'"
-      :height="'40px'"
-      :width="'100%'"
-      @click="login"
-      ><template slot="content"
-        ><div v-if="!loading">Login</div>
-        <Spinner v-else /></template
-    ></Button>
+    <Button :height="'40px'" :width="'100%'" @click="login"
+      ><div v-if="!loading">Login</div>
+      <Spinner v-else
+    /></Button>
   </div>
 </template>
 

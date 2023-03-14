@@ -1,0 +1,22 @@
+.history {
+  padding: 20px;
+
+  .log {
+    &_heading {
+      border-radius: 8px 8px 0 0;
+      margin-top: 24px;
+      background-color: var(--primary-dimmed);
+      color: var(--primary);
+      padding: 20px;
+    }
+    
+    &_entry {
+      padding: 20px;
+      background: var(--border-primary-dimmed);
+      
+      &_last {
+        border-radius: 0 0 8px 8px;
+      }
+    }
+  }
+}

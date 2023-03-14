@@ -1,7 +1,13 @@
 <template>
   <div class="dropdown-wrapper">
     <slot name="label" />
-    <div class="input-wrapper" :style="wrapperStyles">
+    <div
+      @click="$emit('click')"
+      @focusout="$emit('hide')"
+      tabindex="0"
+      class="input-wrapper"
+      :style="wrapperStyles"
+    >
       <slot name="leading-content" />
       <input
         v-if="!textarea"
@@ -19,14 +25,15 @@
         :placeholder="placeholder"
         :rows="rows"
         v-else
-      />
+      ></textarea>
       <slot name="trailing-content" />
     </div>
     <InputItems
       @item-click="$emit('item-click', $event)"
       :items="items"
       :model="model"
-      :enabled="focus && Boolean(items.length) && Boolean(this.model.length)"
+      :show-dropdown="showDropdown"
+      :enabled="isEnabled"
     />
     <div class="errors">
       <div
@@ -52,16 +59,24 @@ export default {
       default: 1,
     },
     model: {
-      type: String,
+      type: [String, Boolean],
       required: true,
     },
     items: {
       type: Array,
       default: () => [],
     },
+    showDropdown: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
+    },
+    width: {
+      type: String,
+      default: "auto",
     },
     textarea: {
       type: Boolean,
@@ -69,7 +84,7 @@ export default {
     },
     textColour: {
       type: String,
-      default: "white",
+      default: "var(--text-primary)",
     },
     height: {
       type: String,
@@ -85,11 +100,11 @@ export default {
     },
     border: {
       type: String,
-      default: "none",
+      default: "1px solid var(--primary)",
     },
     background: {
       type: String,
-      default: "white",
+      default: "black",
     },
     error: {
       type: Object,
@@ -112,6 +127,13 @@ export default {
     }
   },
   computed: {
+    isEnabled() {
+      return (
+        (this.showDropdown || this.focus) &&
+        Boolean(this.items.length) &&
+        Boolean(this.model.length)
+      );
+    },
     activeErr() {
       return (err) => !this.error[err] && this.error.$error;
     },
@@ -147,22 +169,18 @@ export default {
     wrapperStyles() {
       const styles = {
         height: this.height,
-        // "border-radius": "2px",
+        width: this.width,
         border: this.hasError ? "1px solid var(--tf-error)" : this.border,
       };
       return styles;
     },
     styles() {
-      const activeDropdown = this.model && this.items.length;
       const styles = {
-        // "border-radius": activeDropdown ? "4px 4px 0 0" : "4px",
         background: this.background,
         color: this.textColour,
         resize: "none",
       };
-      if (this.textarea) {
-        styles["padding-top"] = "6px";
-      }
+      if (this.textarea) styles["padding-top"] = "20px";
       return styles;
     },
   },

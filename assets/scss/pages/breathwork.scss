@@ -1,0 +1,20 @@
+.breathwork {
+  padding: 40px;
+
+  &_wrapper {
+    position: relative;
+  }
+}
+
+.panel {
+  &_mood {
+    width: 100%;
+  }
+}
+
+.minutes {
+  width: 160px;
+  padding-left: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}

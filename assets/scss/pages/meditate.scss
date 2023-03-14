@@ -1,0 +1,78 @@
+.meditate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orb {
+  height: 200px;
+  width: 200px;
+  // clip-path: circle();
+  // background: var(--primary);
+  box-shadow: 0 0 2px 2px var(--primary);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  border-radius: 100%;
+  justify-content: center;
+
+  &_container {
+    height: 450px;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.instructions {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .phase {
+    width: 30px;
+  }
+}
+
+
+.enlarge {
+  // animation: 2s enlarge linear forwards;
+  animation: 2s enlarge forwards;
+}
+
+.hold {
+  transform: scale(2);
+  background: var(--primary);
+  color: white;
+}
+
+.shrink {
+  animation: 2s shrink forwards;
+}
+
+@keyframes enlarge {
+  0% {
+    transform: scale(1);
+    color: var(--primary);
+  }
+  100% {
+    transform: scale(2);
+    background: var(--primary);
+    color: white;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(2);
+    background: var(--primary);
+    color: white;
+  }
+  100% {
+    transform: scale(1);
+    background: transparent;
+    color: var(--primary);
+  }
+}

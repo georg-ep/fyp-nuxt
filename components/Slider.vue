@@ -1,13 +1,12 @@
 <template>
   <div class="slider-container">
-    <slot name="label" />
+    <div class="tf-label no-bg no-border mb-8">{{ label }} ({{model}})</div>
     <input
       v-model="input"
       class="slider"
       type="range"
       min="1"
       max="10"
-      value="5"
     />
   </div>
 </template>
@@ -15,9 +14,15 @@
 <script>
 export default {
   name: "Slider",
-  model: {
-    type: String,
-    required: true,
+  props: {
+    model: {
+      type: [String, Number],
+      required: true,
+    },
+    label: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     input: {

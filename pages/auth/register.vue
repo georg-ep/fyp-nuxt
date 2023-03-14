@@ -1,66 +1,21 @@
 <template>
-  <div>
+  <div class="section">
     <div class="title">Register</div>
     <Input
-      :text-colour="'black'"
       :placeholder="'Username'"
       :model.sync="username"
       :error="$v.username"
       class="mb-12"
-      ><template slot="label"
-        ><div class="tf-label">Username</div></template
-      ></Input
-    >
+    />
     <Input
-      :text-colour="'black'"
       :placeholder="'Date of Birth'"
       :type="'date'"
       :model.sync="dob"
       :error="$v.dob"
       class="mb-12"
-      ><template slot="label"
-        ><div class="tf-label">Date of Birth</div></template
-      ></Input
-    >
-    <div class="tf-label">Gender</div>
+    />
     <div class="mb-12">
-      <div class="flex space-between">
-        <Button
-          :width="'32%'"
-          :background="gender === 'male' ? 'black' : 'transparent'"
-          :text-colour="gender === 'male' ? 'white' : 'black'"
-          :border="gender === 'male' ? 'none' : '1px solid black'"
-          :font-size="'15px'"
-          :height="'45px'"
-          :border-radius="'2px'"
-          @click="gender = 'male'"
-          ><template slot="content"><div>Male</div> </template></Button
-        >
-        <Button
-          :width="'32%'"
-          :height="'45px'"
-          :background="gender === 'female' ? 'black' : 'transparent'"
-          :text-colour="gender === 'female' ? 'white' : 'black'"
-          :border="gender === 'female' ? 'none' : '1px solid black'"
-          @click="gender = 'female'"
-          :font-size="'15px'"
-          :border-radius="'2px'"
-          ><template slot="content"><div>Female</div> </template></Button
-        >
-        <Button
-          :width="'32%'"
-          :height="'45px'"
-          :background="gender === 'other' ? 'black' : 'transparent'"
-          :text-colour="gender === 'other' ? 'white' : 'black'"
-          :border="gender === 'other' ? 'none' : '1px solid black'"
-          @click="gender = 'other'"
-          :font-size="'15px'"
-          :border-radius="'2px'"
-          ><template slot="content"
-            ><div>Prefer not to say</div>
-          </template></Button
-        >
-      </div>
+      <GenderBlock :model.sync="gender" class="mb-24" />
       <div
         class="gender_error"
         :class="{ gender_error_visible: !genderSubmitted }"
@@ -69,14 +24,13 @@
       </div>
     </div>
     <Input
-      :text-colour="'black'"
       :placeholder="'Password'"
       :model.sync="password"
       :error="$v.password"
       :type="inputType"
       class="mb-12"
     >
-      ><template slot="label"><div class="tf-label">Password</div></template>
+      >
       <template slot="trailing-content"
         ><div class="tf-image-wrapper">
           <img
@@ -87,14 +41,12 @@
           /></div></template
     ></Input>
     <Input
-      :text-colour="'black'"
       :placeholder="'Repeat password'"
       :model.sync="repeat"
       :error="$v.repeat"
       :type="inputType"
       class="mb-12"
     >
-      ><template slot="label"><div class="tf-label">Repeat Password</div></template
       ><template slot="trailing-content"
         ><div class="tf-image-wrapper">
           <img
@@ -105,16 +57,14 @@
           /></div></template
     ></Input>
     <Button
-      :background="loading ? 'white' : 'black'"
+      :background="loading ? 'var(--primary)' : 'transparent'"
       :text-colour="'white'"
-      :border-radius="'4px'"
       :height="'40px'"
       :width="'100%'"
       @click="register"
-      ><template slot="content"
-        ><div v-if="!loading">Register</div>
-        <Spinner v-else /></template
-    ></Button>
+      ><div v-if="!loading">Register</div>
+      <Spinner v-else
+    /></Button>
   </div>
 </template>
 
@@ -171,8 +121,6 @@ export default {
     async register() {
       this.$v.$touch();
       if (!this.gender) this.genderSubmitted = false;
-      console.log(this.$v.$error, this.genderSubmitted);
-      console.log(this.$v);
       if (this.$v.$error || !this.genderSubmitted) return;
       const payload = {
         username: this.username,

@@ -7,10 +7,8 @@
       <div class="section-wrapper">
         <Input
           :model.sync="username"
-          :border="'1px solid black'"
           :height="'40px'"
           :placeholder="'Enter your twitter username'"
-          :text-colour="'black'"
           ><template slot="trailing-content"
             ><div v-if="loading" class="spinner-wrapper">
               <Spinner /></div></template
@@ -18,12 +16,8 @@
             ><div class="icon-wrapper">
               <img src="~/assets/icons/socials/twitter.svg" /></div></template
         ></Input>
-        <Button
-          class="mt-12 mb-24"
-          @click="submit"
-          :height="'30px'"
-          :border-radius="'4px'"
-          ><template slot="content">Submit</template></Button
+        <Button class="mt-12 mb-24" @click="submit" :height="'30px'"
+          >Submit</Button
         >
         <div class="post" v-for="post in posts" :key="post">
           {{ post.text }}
