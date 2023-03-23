@@ -17,10 +17,10 @@
         :placeholder="'Add some notes ...'"
       />
     </div>
-    <ExpandField class="mb-24" v-if="!last" :label="'Add a time limit'">
-      <Input :placeholder="'Minutes'" :model.sync="minutes">
+    <ExpandField class="mb-24" v-if="!last" :label="'Add a cycle limit'">
+      <Input :placeholder="'Cycles'" :model.sync="cycles">
         <template #leading-content>
-          <div class="minutes">Number of Minutes</div>
+          <div class="minutes">Number of Cycles</div>
         </template>
       </Input>
     </ExpandField>
@@ -49,12 +49,15 @@ export default {
       default: "",
     },
   },
-  data() {
-    return {
-      minutes: "",
-    };
-  },
   computed: {
+    cycles: {
+      get() {
+        return this.model.cycles;
+      },
+      set(val) {
+        this.$emit("update:model", { ...this.model, cycles: val });
+      },
+    },
     title() {
       return this.last
         ? "You've completed your Breathwork, how are you feeling?"

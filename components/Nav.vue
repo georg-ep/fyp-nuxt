@@ -1,7 +1,7 @@
 <template>
   <div class="nav" :style="{ position }">
     <div>
-      <div>{{ date }} TODO ADD CURRENT TIME</div>
+      <div>{{ date }}</div>
     </div>
     <div class="flex flex-end align-center w-100">
       <Button

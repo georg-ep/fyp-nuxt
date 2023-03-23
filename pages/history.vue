@@ -19,6 +19,7 @@ export default {
   name: "HistoryPage",
   async asyncData({ store }) {
     const cycles = (await store.dispatch("breathing/listCycles", { ordering: "-created_at" })).results;
+    console.log(cycles[0]);
     return { cycles };
   },
   computed: {

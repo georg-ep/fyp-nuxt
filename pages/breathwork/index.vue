@@ -13,9 +13,19 @@
           </div>
           <div class="desc">{{ exercise.description }}</div>
         </div>
-        <Button @click="$router.push(`/breathwork/${exercise.id}/`)"
-          >Begin</Button
-        >
+        <div class="flex col button-wrapper">
+          <Button
+            class="mb-8"
+            @click="$router.push(`/breathwork/${exercise.id}/`)"
+            >Begin</Button
+          >
+          <Button
+            v-if="exercise.reference"
+            @click="open(exercise.reference)"
+            :border="'1px solid var(--info)'"
+            >More Info</Button
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +37,11 @@ export default {
   async asyncData({ store }) {
     const exercises = (await store.dispatch("breathing/list")).results;
     return { exercises };
+  },
+  methods: {
+    open(url) {
+      window.open(url, "_blank");
+    },
   },
 };
 </script>

@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard">
-    <div v-if="$auth.user.name" class="welcome">
-      Welcome back, {{ $auth.user.name }}
+    <div class="section">
+      <div class="title">Welcome back</div>
     </div>
-    <div class="flex"></div>
   </div>
 </template>
 

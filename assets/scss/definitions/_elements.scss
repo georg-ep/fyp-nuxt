@@ -3,8 +3,9 @@ html, body {
   padding: 0;
   font-family: "Space Grotesk";
   color: var(--text-primary);
-  height:100%;
+  min-height: 100vh !important;
   overflow-x: hidden !important;
+  background: black;
 }
 
 div {

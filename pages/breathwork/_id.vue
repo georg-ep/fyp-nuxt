@@ -9,6 +9,7 @@
           @finish="finish()"
           @start="start()"
           :exercise="exercise"
+          :cycles="before.cycles"
         />
 
         <MoodSection
@@ -44,6 +45,7 @@ export default {
         focus: 5,
         anger: 5,
         notes: "",
+        cycles: null,
       },
       after: {
         stress: 5,

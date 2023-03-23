@@ -26,7 +26,9 @@
         >
       </div>
       <div>
-        <Button v-if="!phase" :width="'100%'" class="mb-12" @click="start">Begin</Button>
+        <Button v-if="!phase" :width="'100%'" class="mb-12" @click="start"
+          >Begin</Button
+        >
       </div>
       <div>
         <Button
@@ -37,7 +39,11 @@
         >
       </div>
       <div>
-        <Button v-if="phase" class="mb-24" :width="'100%'" @click="$emit('finish')"
+        <Button
+          v-if="phase"
+          class="mb-24"
+          :width="'100%'"
+          @click="$emit('finish')"
           >Finish</Button
         >
       </div>
@@ -60,6 +66,10 @@ export default {
       type: Object,
       require: true,
     },
+    cycles: {
+      type: Number,
+      default: null,
+    },
   },
   beforeDestroy() {
     this.phase = null;
@@ -72,6 +82,7 @@ export default {
       timerInterval: null,
       showInstructions: false,
       started: false,
+      cyclesCompleted: 0,
     };
   },
   watch: {
@@ -146,9 +157,13 @@ export default {
       this.timerInterval = setInterval(() => +this.phaseTimer--, 1000);
     },
     animate() {
-      // const style = document.getElementById("main-body").style;
-      // style.background = "black";
-      // style.color = "white !important";
+      if (this.cycles && this.cyclesCompleted === Number(this.cycles)) {
+        clearInterval(this.timerInterval);
+        this.instruction = "Complete";
+        this.phaseTimer = null;
+        this.phase = null;
+        return;
+      }
       this.$nextTick(() => {
         this.phase = "inhale";
         setTimeout(
@@ -163,7 +178,10 @@ export default {
           () => (this.phase = "hold_exhale"),
           this.duration("exhale") * 1000
         );
-        setTimeout(() => this.animate(), this.duration("hold_exhale") * 1000);
+        setTimeout(() => {
+          this.cyclesCompleted++;
+          this.animate();
+        }, this.duration("hold_exhale") * 1000);
       });
     },
   },
