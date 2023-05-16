@@ -71,7 +71,6 @@ export default {
     const email = user.email;
     const dob = user.dob;
     const twoFA = user.totp_enabled;
-    // const gender = user.gender;
     return { email, dob, twoFA };
   },
   data() {
