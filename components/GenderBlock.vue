@@ -6,7 +6,7 @@
         <Button
           :width="'32%'"
           :background="gender === 'male' ? 'var(--primary)' : 'transparent'"
-          :text-colour="'white'"
+          :text-colour="'var(--text-primary)'"
           :font-size="'15px'"
           :height="'45px'"
           @click="gender = 'male'"
@@ -16,7 +16,7 @@
           :width="'32%'"
           :height="'45px'"
           :background="gender === 'female' ? 'var(--primary)' : 'transparent'"
-          :text-colour="'white'"
+          :text-colour="'var(--text-primary)'"
           @click="gender = 'female'"
           :font-size="'15px'"
           >Female</Button
@@ -25,7 +25,7 @@
           :width="'32%'"
           :height="'45px'"
           :background="gender === 'other' ? 'var(--primary)' : 'transparent'"
-          :text-colour="'white'"
+          :text-colour="'var(--text-primary)'"
           @click="gender = 'other'"
           :font-size="'15px'"
           >Prefer Not to Say</Button

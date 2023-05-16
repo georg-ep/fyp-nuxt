@@ -1,5 +1,4 @@
 import Vuex from "vuex";
-import twitter from "./twitter/state";
 import user from "./user/state";
 import logs from "./logs/state";
 import activities from "./activities/state";
@@ -25,7 +24,6 @@ const createStore = () =>
     actions,
     mutations,
     modules: {
-      twitter,
       user,
       logs,
       activities,

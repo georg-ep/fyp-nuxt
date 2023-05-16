@@ -1,6 +1,8 @@
 <template>
   <div class="dropdown-wrapper">
-    <slot name="label" />
+    <div v-if="$slots.label" class="tf-label" :class="{'tf-label_error': hasError}">
+      <slot name="label" />
+    </div>
     <div
       @click="$emit('click')"
       @focusout="$emit('hide')"
@@ -104,7 +106,7 @@ export default {
     },
     background: {
       type: String,
-      default: "black",
+      default: "white",
     },
     error: {
       type: Object,
@@ -143,9 +145,14 @@ export default {
         const msgs = {
           required: "This field is required",
           invalidLogin: "No active account found with credentials",
-          credsExist: "A user with these credentials already exists",
+          credsExist: "This email is registered to another account",
+          invalidDeletePassword: "This password is not the same as your current password",
+          invalidOldPassword: "This password is not the same as your current password",
+          invalidToken: "This token is invalid",
           passwordMatch: "These passwords do not match",
           minLength: `This field must be at least ${length} characters long`,
+          email: `This is not a valid email format`,
+          maxLength: `This field must be at most ${length} characters long`,
           timeOverlap: `This field overlaps with an existing media log`,
           minTime: `The start time must be less than the finish time`,
         };

@@ -18,15 +18,11 @@ export default {
   data() {
     return {
       links: [
-        { name: "Dashboard", route: "/dashboard/" },
         { name: "Breathwork", route: "/breathwork/" },
-        // { name: "Mood Logs", route: "/moods/" },
-        // { name: "Activities", route: "/activities/" },
-        // { name: "Tools", route: "" },
-        // { name: "Insights", route: "/insights/" },
         { name: "Insights", route: "/insights/" },
         { name: "History", route: "/history/" },
         { name: "Settings", route: "/settings/" },
+        { name: "Privacy Policy", route: "/privacy-policy/" },
       ],
     };
   },

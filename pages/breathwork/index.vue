@@ -1,30 +1,32 @@
 <template>
   <div class="breathwork">
-    <div class="title">Choose a type of Breathwork</div>
-    <div
-      class="tile"
-      v-for="(exercise, index) in exercises"
-      :key="`exercise_${index}`"
-    >
-      <div class="flex align-center space-between">
-        <div>
-          <div class="title">
-            {{ exercise.name }}
+    <div class="section">
+      <div class="title">Choose a type of Breathwork</div>
+      <div
+        class="tile"
+        v-for="(exercise, index) in exercises"
+        :key="`exercise_${index}`"
+      >
+        <div class="flex align-center space-between">
+          <div>
+            <div class="title">
+              {{ exercise.name }}
+            </div>
+            <div class="desc">{{ exercise.description }}</div>
           </div>
-          <div class="desc">{{ exercise.description }}</div>
-        </div>
-        <div class="flex col button-wrapper">
-          <Button
-            class="mb-8"
-            @click="$router.push(`/breathwork/${exercise.id}/`)"
-            >Begin</Button
-          >
-          <Button
-            v-if="exercise.reference"
-            @click="open(exercise.reference)"
-            :border="'1px solid var(--info)'"
-            >More Info</Button
-          >
+          <div class="flex col button-wrapper">
+            <Button
+              class="mb-8"
+              @click="$router.push(`/breathwork/${exercise.id}/`)"
+              >Begin</Button
+            >
+            <Button
+              v-if="exercise.reference"
+              @click="open(exercise.reference)"
+              :border="'1px solid var(--info)'"
+              >More Info</Button
+            >
+          </div>
         </div>
       </div>
     </div>

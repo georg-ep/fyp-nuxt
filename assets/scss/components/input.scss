@@ -70,8 +70,8 @@ input, textarea {
   
   .item {
     padding: 0;
-    color: white;
-    background: black;
+    color: var(--text-primary);
+    background: var(--background);
     height: 0px;
     transition: 0.2s ease-in-out;
     overflow: hidden;
@@ -86,7 +86,7 @@ input, textarea {
     }
     
     &:hover {
-      background: var(--text-secondary);
+      filter: brightness(90%);
     }
     
     &_visible {
@@ -100,10 +100,6 @@ input[type='checkbox'] {
   background: none !important;
   outline: none !important;
   border: none !important;
-}
-
-::-webkit-calendar-picker-indicator {
-  filter: invert(1);
 }
 
 .expand-field {

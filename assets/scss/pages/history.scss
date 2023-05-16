@@ -6,17 +6,48 @@
       border-radius: 8px 8px 0 0;
       margin-top: 24px;
       background-color: var(--primary-dimmed);
-      color: var(--primary);
+      color: black;
       padding: 20px;
+      border: 1px solid black;
+      transition: 0.1s ease-in-out;
+
+      &_curved {
+        border-radius: 8px;
+      }
+
+      &_content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        
+        .icon {
+          height: 24px;
+          width: 24px;
+        }
+      }
     }
     
     &_entry {
-      padding: 20px;
-      background: var(--border-primary-dimmed);
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      max-height: 0;
+      overflow: hidden;
+      transition: 0.1s ease-in-out;
       
       &_last {
         border-radius: 0 0 8px 8px;
+        border-bottom: 1px solid black;
+      }
+      
+      &_expanded {
+        padding: 20px;
+        max-height: 1000px;
       }
     }
   }
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

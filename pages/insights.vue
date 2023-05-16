@@ -12,14 +12,14 @@
             <Button :height="'30px'" @click="updateDate('next')">> </Button>
           </div>
           <ExpandField class="mt-24" :label="'Custom Dates'">
-            <div class="flex">
+            <div class="date-filters">
               <Input
                 v-for="(filter, index) in dateFilters"
                 :key="`filter_${index}`"
                 class="filter flex_1"
                 :model.sync="filter.text"
                 :type="filter.type"
-                :text-colour="'white'"
+                :text-colour="'var(--text-primary)'"
               >
                 <template #leading-content>
                   <div class="filter-label">
@@ -32,7 +32,7 @@
         </div>
         <div class="flex_1 section">
           <div class="title">Compare Stats</div>
-          <div class="flex mt-12 mb-12">
+          <div class="date-filters mt-12 mb-12">
             <Input
               v-for="(filter, index) in compareFilters"
               :key="`filter_${index}`"
@@ -48,7 +48,7 @@
               :type="filter.type"
               :show-dropdown="filter.showDropdown"
               :disabled="true"
-              :text-colour="'white'"
+              :text-colour="'var(--text-primary)'"
             >
               <template #leading-content>
                 <div class="filter-label filter-label_larger">
@@ -78,7 +78,6 @@ export default {
   data() {
     return {
       date: new Date(),
-      selectedDate: Date.now(),
       dateRange: null,
       compareItems: [{ name: "Stress" }, { name: "Anger" }, { name: "Focus" }],
       dateFilters: [
@@ -117,39 +116,32 @@ export default {
     async date(val) {
       this.dateRange = null;
       this.selectedDate = val;
+      function pad(date) {
+        return String(date).padStart(2, '0');
+      };
       const year = val.getFullYear();
       const month = val.getMonth() + 1;
-      const date = val.getDate();
-      const time = "T00:00:00Z";
-      const lte = `${year}-${month}-${date + 1}`;
-      const gte = `${year}-${month}-${date}`;
+      const day = val.getDate();
+      const lte = `${year}-${pad(month)}-${pad(day + 1)}`;
+      const gte = `${year}-${pad(month)}-${pad(day)}`;
       try {
-        this.cycles = (
-          await this.$store.dispatch("breathing/listCycles", {
-            created_at__lte: lte + time,
-            created_at__gte: gte + time,
-            ordering: "-created_at",
-          })
-        ).results;
-
-        if (this.data?.datasets.length) {
-          this.data.datasets[0].data = this.cycles.mood_before;
-          this.data.datasets[1].data = this.cycles.mood_after;
-        }
+        this.cycles = await this.$store.dispatch("breathing/listCycles", {
+          gte,
+          lte,
+          ordering: "-created_at",
+        });
       } catch (e) {
         console.log(e);
       }
     },
     dateFilters: {
       async handler(val) {
-        const gte = val[0].text + "T00:00:00Z";
-        const lte = val[1].text + "T23:59:59Z";
-        this.cycles = (
-          await this.$store.dispatch("breathing/listCycles", {
-            created_at__lte: lte,
-            created_at__gte: gte,
-          })
-        ).results;
+        const gte = val[0].text;
+        const lte = val[1].text;
+        this.cycles = await this.$store.dispatch("breathing/listCycles", {
+          lte,
+          gte,
+        });
 
         const startDate = this.formatDate(val[0].text);
         const endDate = this.formatDate(val[1].text);
@@ -160,23 +152,38 @@ export default {
       deep: true,
     },
   },
-  async asyncData({ store }) {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const lte = `${year}-${month}-${day + 1}` + "T23:59:59Z";
-    const gte = `${year}-${month}-${day}` + "T00:00:00Z";
-    const cycles = (
-      await store.dispatch("breathing/listCycles", {
-        created_at__lte: lte,
-        created_at__gte: gte,
-        ordering: "-created_at",
-      })
-    ).results;
-    return { cycles };
+  async asyncData({ store, route }) {
+    let selectedDate = Date.now();
+    function pad(val) {
+      return String(val).padStart(2, '0');
+    };
+    let date, year, month, day, lte, gte;
+    if (!route.query.selectedDate) {
+      date = new Date();
+      year = date.getFullYear();
+      month = date.getMonth() + 1;
+      day = date.getDate();
+      lte = `${year}-${pad(month)}-${pad(day + 1)}`;
+      gte = `${year}-${pad(month)}-${pad(day)}`;
+    } else {
+      const arr = route.query.selectedDate.split("-");
+      selectedDate = new Date(arr[0], arr[1] - 1, arr[2]);
+      const date = selectedDate;
+      lte = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`;
+      gte = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
+    const cycles = await store.dispatch("breathing/listCycles", {
+      lte,
+      gte,
+      ordering: "-created_at",
+    });
+
+    return { cycles, selectedDate };
   },
   computed: {
+    pad() {
+      return (val) =>  String(val).padStart(2, '0');
+    },
     formatDate() {
       return (date) => {
         var date = new Date(date);
@@ -184,6 +191,15 @@ export default {
           month: "short",
         })}`;
       };
+    },
+    combinedCycles() {
+      let cycles = [];
+      for (const key in this.cycles) {
+        for (const val in this.cycles[key]) {
+          cycles = [...cycles, this.cycles[key][val]];
+        }
+      }
+      return cycles;
     },
     chartOptions() {
       return {
@@ -224,22 +240,29 @@ export default {
     chartData() {
       const beforeType = this.compareFilters[0].item.name.toLowerCase();
       const afterType = this.compareFilters[1].item.name.toLowerCase();
+      console.log("redrawing");
       return {
-        labels: Array.from(this.cycles, (el) => el.time),
+        labels: Array.from(this.combinedCycles, (el) => el.time),
         datasets: [
           {
             label: `${this.compareFilters[0].item.name} Before`,
             yAxisID: "y",
             backgroundColor: "blue",
             borderColor: "blue",
-            data: Array.from(this.cycles, (el) => el.mood_before[beforeType]),
+            data: Array.from(
+              this.combinedCycles,
+              (el) => el.mood_before[beforeType]
+            ),
           },
           {
             label: `${this.compareFilters[1].item.name} After`,
             yAxisID: "y1",
             borderColor: "green",
             backgroundColor: "green",
-            data: Array.from(this.cycles, (el) => el.mood_after[afterType]),
+            data: Array.from(
+              this.combinedCycles,
+              (el) => el.mood_after[afterType]
+            ),
           },
         ],
       };

@@ -2,9 +2,9 @@
   <div class="section">
     <div class="title">Register</div>
     <Input
-      :placeholder="'Username'"
-      :model.sync="username"
-      :error="$v.username"
+      :placeholder="'Email'"
+      :model.sync="email"
+      :error="$v.email"
       class="mb-12"
     />
     <Input
@@ -14,15 +14,6 @@
       :error="$v.dob"
       class="mb-12"
     />
-    <div class="mb-12">
-      <GenderBlock :model.sync="gender" class="mb-24" />
-      <div
-        class="gender_error"
-        :class="{ gender_error_visible: !genderSubmitted }"
-      >
-        This field is required
-      </div>
-    </div>
     <Input
       :placeholder="'Password'"
       :model.sync="password"
@@ -56,12 +47,31 @@
             alt=""
           /></div></template
     ></Input>
+    <div class="flex space-between mb-8 mt-24">
+      Enable 2FA?
+      <Checkbox :model.sync="twoFA" />
+    </div>
+    <div class="note">
+      You will need access to a mobile device with an authenticator application
+    </div>
+    <a
+      target="_blank"
+      href="https://computing.which.co.uk/hc/en-gb/articles/360006153539-How-to-set-up-an-authenticator-app-for-two-factor-authentication#:~:text=When%20you%20set%20up%20an,then%20saved%20to%20your%20phone."
+      class="note_link"
+      >Click here to get started</a
+    >
+    <div class="flex align-center space-between mb-8 mt-24 privacy" :class="{privacy_error: $v.privacy.$error}">
+      <div class="note_heading">
+        I have read and agree to the <a class="note_link">Privacy Policy</a>
+      </div>
+      <Checkbox :error="$v.privacy.$error" :model.sync="privacy" />
+    </div>
     <Button
       :background="loading ? 'var(--primary)' : 'transparent'"
-      :text-colour="'white'"
       :height="'40px'"
       :width="'100%'"
       @click="register"
+      class="mt-24"
       ><div v-if="!loading">Register</div>
       <Spinner v-else
     /></Button>
@@ -69,22 +79,22 @@
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "RegisterPage",
   layout: "auth",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       repeat: "",
       dob: "",
-      gender: "",
-      genderSubmitted: true,
-      existingUsernames: [],
+      privacy: false,
+      existingEmails: [],
       submitted: false,
       inputType: "password",
       credsExist: true,
+      twoFA: false,
       loading: false,
     };
   },
@@ -92,21 +102,19 @@ export default {
   validations() {
     const credsExist = () => this.credsExist === true;
     const passwordMatch = () => this.repeat === this.password;
+    const privacy = () => this.privacy === true;
     return {
-      username: { required, credsExist, minLength: minLength(8) },
+      email: { required, credsExist, email },
       password: { required, passwordMatch },
       repeat: { required, passwordMatch },
       dob: { required },
+      privacy: { privacy }
     };
   },
   watch: {
-    gender(val) {
-      if (!val) return (this.genderSubmitted = false);
-      this.genderSubmitted = true;
-    },
-    username(val) {
+    email(val) {
       if (this.submitted) {
-        if (this.existingUsernames.includes(val)) {
+        if (this.existingEmails.includes(val)) {
           return (this.credsExist = false);
         }
         this.credsExist = true;
@@ -120,23 +128,28 @@ export default {
     },
     async register() {
       this.$v.$touch();
-      if (!this.gender) this.genderSubmitted = false;
-      if (this.$v.$error || !this.genderSubmitted) return;
+      if (this.$v.$error) return;
+      await this.$auth.logout();
       const payload = {
-        username: this.username,
+        email: this.email,
         password: this.password,
+        confirm_password: this.repeat,
         dob: this.dob,
-        gender: this.gender,
+        totp_enabled: this.twoFA,
       };
       this.loading = true;
       try {
         await this.$store.dispatch("user/register", payload);
         await this.$auth.loginWith("local", { data: payload });
-        this.$router.push("/dashboard/");
+        await this.$auth.fetchUser();
+        if (this.$auth.user.totp_enabled) {
+          return this.$router.push("/auth/authenticate/");
+        }
+        this.$router.push("/settings/?authenticate=success");
       } catch (e) {
         console.log(e);
-        if (e?.response?.data?.detail.includes("username")) {
-          this.existingUsernames.push(this.username);
+        if (e?.response?.data?.detail?.includes("email")) {
+          this.existingEmails.push(this.email);
         }
         this.submitted = true;
         this.credsExist = false;

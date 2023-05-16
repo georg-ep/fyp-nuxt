@@ -2,7 +2,7 @@
   <div id="main-body">
     <Nav />
     <div class="flex">
-      <Sidebar />
+      <Sidebar class="sidebar" />
       <div class="content">
         <nuxt />
       </div>

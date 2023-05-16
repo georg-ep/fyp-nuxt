@@ -36,7 +36,7 @@ export default {
     },
     textColour: {
       type: String,
-      default: "var(--primary-text)",
+      default: "var(--text-primary)",
     },
     width: {
       type: String,

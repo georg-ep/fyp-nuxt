@@ -11,10 +11,6 @@
         @click="$router.push('/auth/login/')"
         >Login</Button
       >
-      <!-- <div v-if="user" class="media-time">
-        <div class="label">Daily media time</div>
-        <div>{{ mediaTime }}</div>
-      </div> -->
       <Button :height="'30px'" @click="buttonClick">{{ buttonText }}</Button>
     </div>
   </div>
@@ -35,21 +31,9 @@ export default {
       date: new Date().toLocaleDateString(),
     };
   },
-  mounted() {
-    // let time = Date.now();
-    // setInterval(() => {
-    //   time += 1;
-    //   this.date = Date.now().toUTCString()
-    // }, 1000);
-  },
   computed: {
     mediaTime() {
       const time = this.$auth?.user?.daily_media_time;
-      // let timeString = "";
-      // const hours = time.split(":")[0];
-      // const minutes = time.split(":")[1].split(":")[0];
-      // if (hours) timeString += `${hours}h `;
-      // if (Number(minutes)) timeString += `${minutes}m`;
       return time ?? "";
     },
     buttonText() {
@@ -57,8 +41,8 @@ export default {
     },
   },
   methods: {
-    buttonClick() {
-      if (this.user) return this.logout();
+    async buttonClick() {
+      if (this.user) return await this.logout();
       this.$router.push("/auth/register/");
     },
     async logout() {

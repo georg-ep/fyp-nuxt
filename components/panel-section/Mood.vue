@@ -17,13 +17,6 @@
         :placeholder="'Add some notes ...'"
       />
     </div>
-    <ExpandField class="mb-24" v-if="!last" :label="'Add a cycle limit'">
-      <Input :placeholder="'Cycles'" :model.sync="cycles">
-        <template #leading-content>
-          <div class="minutes">Number of Cycles</div>
-        </template>
-      </Input>
-    </ExpandField>
     <div v-if="last" class="flex space-between mb-24">
       <div>Duration of Breathwork</div>
       <div>{{ duration }}</div>

@@ -100,7 +100,13 @@
   border-top: 1px solid var(--primary);
   border-left: 1px solid var(--primary);
   border-right: 1px solid var(--primary);
-  background: black;
+  background: var(--background);
+  
+  &_error {
+    border-top: 1px solid var(--error);
+    border-left: 1px solid var(--error);
+    border-right: 1px solid var(--error);
+  }
 
   &_no-format {
     border-top: none;

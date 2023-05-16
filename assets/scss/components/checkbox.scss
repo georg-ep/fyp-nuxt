@@ -7,9 +7,13 @@
   align-items: center;
   justify-content: center;
   transition: 0.2s ease-in-out;
+
+  &_error {
+    border: 1px solid var(--error);
+  }
   
   &_checked {
-    background: orange;
+    background: var(--primary);
   }
 
   .icon {

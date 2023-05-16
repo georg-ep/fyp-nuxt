@@ -1,8 +1,8 @@
 <template>
   <div class="expand-field">
-    <div @click="expanded = !expanded" class="dropdown mb-12">
+    <div @click="expanded = !expanded; $emit('is-expanded', expanded)" class="dropdown mb-12">
       <div>{{ label }}</div>
-      <img :class="{chevron_rotated: expanded}" class="chevron" src="~/assets/icons/chevron-down.svg" alt="" />
+      <img v-if="showArrow" :class="{chevron_rotated: expanded}" class="chevron" src="~/assets/icons/chevron-down.svg" alt="" />
     </div>
     <div class="content" :class="{content_expanded: expanded}">
       <slot />
@@ -17,6 +17,10 @@ export default {
     label: {
       type: String,
       default: "",
+    },
+    showArrow: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
