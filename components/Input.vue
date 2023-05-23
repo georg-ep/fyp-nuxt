@@ -146,6 +146,7 @@ export default {
           required: "This field is required",
           invalidLogin: "No active account found with credentials",
           credsExist: "This email is registered to another account",
+          validPassword: "Password must be 12+ characters and include one uppercase, lowercase, number and symbol",
           invalidDeletePassword: "This password is not the same as your current password",
           invalidOldPassword: "This password is not the same as your current password",
           invalidToken: "This token is invalid",

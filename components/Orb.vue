@@ -20,7 +20,7 @@
         <Button
           :width="'100%'"
           class="mb-24"
-          :border="'1px solid var(--error)'"
+          :border="'1px solid var(--tf-error)'"
           @click="showInstructions = !showInstructions"
           >Feeling Distressed?</Button
         >

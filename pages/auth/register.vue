@@ -60,7 +60,10 @@
       class="note_link"
       >Click here to get started</a
     >
-    <div class="flex align-center space-between mb-8 mt-24 privacy" :class="{privacy_error: $v.privacy.$error}">
+    <div
+      class="flex align-center space-between mb-8 mt-24 privacy"
+      :class="{ privacy_error: $v.privacy.$error }"
+    >
       <div class="note_heading">
         I have read and agree to the <a class="note_link">Privacy Policy</a>
       </div>
@@ -94,6 +97,7 @@ export default {
       submitted: false,
       inputType: "password",
       credsExist: true,
+      invalidPassword: true,
       twoFA: false,
       loading: false,
     };
@@ -103,22 +107,24 @@ export default {
     const credsExist = () => this.credsExist === true;
     const passwordMatch = () => this.repeat === this.password;
     const privacy = () => this.privacy === true;
+    const validPassword = () => this.invalidPassword === true;
     return {
       email: { required, credsExist, email },
-      password: { required, passwordMatch },
+      password: { required, passwordMatch, validPassword },
       repeat: { required, passwordMatch },
       dob: { required },
-      privacy: { privacy }
+      privacy: { privacy },
     };
   },
   watch: {
     email(val) {
-      if (this.submitted) {
-        if (this.existingEmails.includes(val)) {
-          return (this.credsExist = false);
-        }
-        this.credsExist = true;
+      if (this.submitted && this.existingEmails.includes(val)) {
+        return (this.credsExist = false);
       }
+      this.credsExist = true;
+    },
+    password(val) {
+      this.invalidPassword = true;
     },
   },
   methods: {
@@ -150,9 +156,12 @@ export default {
         console.log(e);
         if (e?.response?.data?.detail?.includes("email")) {
           this.existingEmails.push(this.email);
+          this.credsExist = false;
+        }
+        if (e?.response?.data?.detail?.toLowerCase().includes("password")) {
+          this.invalidPassword = false;
         }
         this.submitted = true;
-        this.credsExist = false;
         this.loading = false;
       }
     },

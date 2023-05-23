@@ -138,6 +138,7 @@ export default {
     async updateSettings() {
       this.$v.email.$touch();
       if (this.$v.email.$error) return;
+      const startTime = new Date();
       try {
         const payload = {
           dob: this.dob,
@@ -150,6 +151,9 @@ export default {
           type: "success",
           text: "Successfully updated your settings",
         });
+        const endTime = new Date();
+        const duration = endTime - startTime; 
+        console.log("[Success] Data -> Server :", duration, "ms");
       } catch (e) {
         if (e?.response?.data?.detail?.includes("email")) {
           this.existingEmails.push(this.email);

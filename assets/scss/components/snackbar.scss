@@ -2,7 +2,7 @@
   border-radius: 6px;
   padding: 0;
   color: white;
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   right: 32px;
   overflow: hidden;
@@ -10,6 +10,7 @@
   opacity: 0;
   transform: translateY(100px);
   transition: 0.2s ease-in-out;
+  z-index: 1000;
 
   &_visible {
     opacity: 1;

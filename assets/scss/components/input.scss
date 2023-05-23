@@ -29,7 +29,7 @@
 
   &_error {
     opacity: 0;
-    height: 0px;
+    max-height: 0;
     transition: 0.2s ease-in-out;
     color: var(--tf-error);
     display: flex;
@@ -38,7 +38,7 @@
     
     &_active {
       opacity: 1;
-      height: 20px;
+      max-height: 50px;
     }
   }
 }
